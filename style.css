@@ -1,0 +1,490 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+    display: flex;
+    height: 100vh;
+    background-color: #f7e0e7; /* Background body keseluruhan */
+}
+
+#map {
+    height: 100%;
+    flex-grow: 1;
+    border-radius: 10px; /* Sedikit border-radius untuk peta */
+    overflow: hidden; /* Penting untuk border-radius */
+    margin: 10px; /* Memberi sedikit ruang dari sidebar */
+}
+
+.sidebar {
+    width: 320px; /* Sedikit lebih lebar */
+    height: 100%;
+    background-color: #ffeef2; /* Warna latar belakang sidebar lebih terang */
+    padding: 20px;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.08); /* Bayangan lebih halus */
+    overflow-y: auto;
+    display: flex; /* Untuk menata konten sidebar secara vertikal */
+    flex-direction: column;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ffccd9; /* Garis bawah yang lebih menonjol */
+}
+
+/* Make header sticky inside sidebar so it doesn't scroll away */
+.sidebar .header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: inherit;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.app-title {
+    color: #e91e63; /* Warna merah muda yang lebih kuat */
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.search-section {
+    margin-bottom: 25px;
+    position: relative; /* Untuk positioning ikon search */
+}
+
+.search-section input[type="text"] {
+    width: calc(100% - 20px); /* Lebar penuh dikurangi padding */
+    padding: 12px 15px;
+    border: 1px solid #ffccd9;
+    border-radius: 25px; /* Sudut lebih membulat */
+    font-size: 0.95em;
+    color: #333;
+    background-color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Menghapus gaya untuk tombol search yang lama jika ada */
+/* .search-section button { display: none; } */
+
+
+.filter-card {
+    background-color: #ffffff; /* Latar belakang putih untuk setiap kartu filter */
+    border-radius: 15px; /* Sudut membulat */
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Bayangan lebih lembut */
+}
+
+.filter-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #e91e63; /* Warna pink untuk judul filter */
+    font-size: 1.1em;
+    font-weight: 600;
+    border-bottom: none; /* Hapus border-bottom yang lama */
+    padding-bottom: 0;
+}
+
+.filter-card label {
+    color: #444;
+    font-size: 0.9em;
+    margin-left: 8px; /* Jarak antara checkbox dan teks */
+    cursor: pointer;
+}
+
+.filter-card input[type="checkbox"] {
+    /* Gaya custom untuk checkbox */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ff99aa; /* Border pink */
+    border-radius: 4px;
+    vertical-align: middle;
+    position: relative;
+    cursor: pointer;
+}
+
+.filter-card input[type="checkbox"]:checked {
+    background-color: #ff6f90; /* Background saat dicentang */
+    border-color: #ff6f90;
+}
+
+.filter-card input[type="checkbox"]:checked::after {
+    content: '✔'; /* Tanda centang */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+}
+
+.filter-actions {
+    margin-top: auto; /* Mendorong tombol ke bagian bawah sidebar */
+    padding-top: 20px;
+    border-top: 1px solid #ffccd9;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Jarak antar tombol */
+}
+
+.filter-actions button {
+    flex-grow: 1; /* Agar tombol mengisi ruang yang tersedia */
+    padding: 12px 15px;
+    border: none;
+    border-radius: 25px; /* Sudut membulat */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95em;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#run-filter {
+    background-color: #6a0572; /* Deep purple */
+    color: white;
+}
+
+#run-filter:hover {
+    background-color: #4a044e;
+    transform: translateY(-2px);
+}
+
+#reset-filter {
+    background-color: #f05e94; /* Pink kemerahan */
+    color: white;
+}
+
+#reset-filter:hover {
+    background-color: #d14a7e;
+    transform: translateY(-2px);
+}
+
+/* --- Gaya untuk Halaman Intro (Landing Page) --- */
+.landing-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #ffeef2;
+    padding: 20px;
+}
+
+.landing-title {
+    font-size: 3em;
+    color: #e91e63;
+    font-weight: 700;
+}
+
+.landing-subtitle {
+    font-size: 1.2em;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto 20px;
+}
+
+.landing-quote {
+    font-size: 1.1em;
+    color: #e91e63;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+.get-started-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: #6a0572;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.get-started-btn:hover {
+    background-color: #4a044e;
+}
+
+/* --- Perbaikan dan Penambahan Gaya untuk Peta & Sidebar --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f7e0e7;
+}
+
+#map {
+    height: 100%;
+    flex-grow: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Sidebar toggle button */
+#toggle-sidebar {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 8px 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+
+/* When sidebar is collapsed, hide it with transform */
+.sidebar.collapsed {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease-out;
+}
+.sidebar {
+    transition: transform 0.25s ease-out;
+}
+
+/* Top-right small actions */
+.top-actions {
+    position: fixed; /* stay in place when scrolling */
+    right: 18px;
+    top: 12px;
+    z-index: 1400; /* above header */
+    display: flex;
+    gap: 8px;
+}
+.top-actions button {
+    background: rgba(255,255,255,0.95);
+    border: 1px solid #eee;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Top fixed controls for quick actions (detect location, route to nearest) */
+.top-controls {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 14px; /* centered at the top of the viewport */
+    z-index: 1700; /* above most elements including map and header */
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.top-control-btn {
+    background: rgba(255,255,255,0.98);
+    border: 1px solid #eee;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 900px) {
+    /* stack vertically on narrow screens and keep centered */
+    .top-controls { left: 50%; transform: translateX(-50%); top: 12px; flex-direction: column; }
+}
+
+/* star rating buttons in feedback modal */
+#rating-stars .star {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #ddd;
+    padding: 2px 6px;
+}
+#rating-stars .star:hover, #rating-stars .star.active { color: #ffc107 }
+
+/* single price range track styling */
+input[type=range].single-range { -webkit-appearance: none; appearance: none; height: 8px; border-radius: 8px; background: linear-gradient(90deg, #ffd6e6 0%, #ffd6e6 100%); }
+input[type=range].single-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #c2185b; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+input[type=range].single-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #c2185b; cursor: pointer; }
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.4);
+    z-index: 2000;
+}
+.modal[aria-hidden="false"] { display: flex; }
+.modal .modal-content {
+    background: #fff;
+    padding: 18px;
+    border-radius: 10px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+.modal .modal-close {
+    float: right;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Popup styling: adjust leaflet popup content a bit */
+.leaflet-popup-content-wrapper {
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+.popup-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 8px;
+}
+.popup-row { display:flex; gap:8px; align-items:center; }
+.popup-actions { display:flex; gap:8px; margin-top:8px; }
+.popup-actions button { padding:8px 10px; border-radius:8px; border:none; cursor:pointer; font-weight:600 }
+.btn-route-popup { background:#1976d2; color:#fff }
+.btn-whatsapp { background:#25D366; color:#fff }
+.popup-actions { display:flex; gap:8px; margin-top:8px; }
+.popup-actions button, .popup-actions a { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:800; text-decoration:none; font-size:1.02rem; display:inline-flex; align-items:center; gap:8px }
+.btn-route-popup { background: linear-gradient(180deg,#ff6f90,#e91e63); color:#fff }
+.btn-whatsapp { background: #ff9aa2; color:#fff; }
+
+@media (max-width: 900px) {
+    .sidebar { position: absolute; z-index: 900; height: 100%; }
+    #toggle-sidebar { left: 8px; top: 8px }
+}
+
+.sidebar {
+    width: 320px;
+    height: 100%;
+    background-color: #ffeef2;
+    padding: 20px;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.08);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ... gaya lainnya di sini ... */
+
+/* Perbarui gaya untuk input pencarian */
+.search-section input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 12px 15px;
+    border: 1px solid #ffccd9;
+    border-radius: 25px;
+    font-size: 0.95em;
+    color: #333;
+    background-color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Perbarui warna judul filter */
+.filter-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #e91e63;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* Perbarui warna checkbox saat dicentang */
+.filter-card input[type="checkbox"]:checked {
+    background-color: #ff6f90;
+    border-color: #ff6f90;
+}
+
+/* Perbarui warna tombol */
+#run-filter {
+    background-color: #ff5757; /* Warna merah */
+    color: white;
+}
+
+#reset-filter {
+    background-color: #f05e94; /* Warna pink kemerahan */
+    color: white;
+}
+
+/* --- Additional UI polish added --- */
+/* Top header fixed to top, left aligned title */
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    background: linear-gradient(90deg,#ffeef2,#ffd6e6);
+    display: flex;
+    align-items: center;
+    z-index: 1200;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+.top-header-inner { max-width: none; margin: 0; padding: 0 12px; width:100%; display:flex; align-items:center; gap:12px; justify-content:flex-start }
+.top-title { margin:0; font-size:1.6rem; color:#c2185b; font-weight:800; text-align:left }
+
+/* move map content down so header doesn't overlap */
+#map { padding-top: 76px; box-sizing: border-box }
+
+/* highlight About/Feedback */
+.top-actions button { color:#c2185b; font-weight:800 }
+
+/* Make detect & route buttons pink to match icon colors */
+#btn-lokasi-user, #btn-route-nearest, #run-filter {
+    background: linear-gradient(180deg,#ff6f90,#e91e63);
+    color: #fff;
+    border: none;
+}
+
+/* Popup button styles and fonts */
+.popup-actions { display:flex; gap:8px; margin-top:8px; }
+.popup-actions button, .popup-actions a { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:700; text-decoration:none; }
+.btn-route-popup { background: linear-gradient(180deg,#ff6f90,#e91e63); color:#fff }
+.btn-whatsapp { background: #ff9aa2; color:#fff }
+.leaflet-popup-content-wrapper h4 { font-size:1.2rem; margin:4px 0 8px; font-weight:900; color:#c2185b }
+.leaflet-popup-content-wrapper { font-size:1.02rem }
+
+/* Route highlight color and info panel */
+.route-info { position: absolute; right:18px; bottom:18px; z-index:1300; background:#fff; padding:12px 14px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.12); display:none; font-weight:700 }
+.route-info.visible { display:block }
+
+/* Title badge and action badge */
+.title-badge { display:inline-flex; align-items:center; gap:8px; background: transparent; padding:0; border-radius:0; color:#c2185b; font-weight:800 }
+.title-badge i { color:#c2185b; margin-right:6px; font-size:1.3em }
+.actions-badge { display:inline-flex; gap:8px; margin-left:auto }
+.actions-badge button { background: rgba(255,255,255,0.96); color:#c2185b; border:1px solid #f0d6de; padding:8px 10px; border-radius:8px; font-weight:800; display:inline-flex; align-items:center; gap:8px }
+.actions-badge button i { font-size:1.5em; line-height:1 }
+
+/* Popup button styles and fonts already present above; add route-popup styling */
+.route-popup .leaflet-popup-content-wrapper { border-radius:8px }
+.route-popup .route-header { background: linear-gradient(180deg,#e91e63,#c2185b); color:#fff; padding:8px 10px; border-radius:6px 6px 0 0; font-weight:800 }
+.route-popup .route-body { padding:8px 10px }
+.route-popup .vehicle-row { display:flex; justify-content:space-between; gap:8px; align-items:center; }
+.route-popup .vehicle-row span { font-weight:700 }
+
+/* when sidebar is collapsed, provide full width map experience */
+.sidebar.collapsed { transform: translateX(-100%); }
+.sidebar.collapsed ~ #map, .sidebar.collapsed + #map { margin-left: 0; width: calc(100%) }
+
+/* when sidebar is collapsed, provide full width map experience */
+.sidebar.collapsed { transform: translateX(-100%); }
+.sidebar.collapsed ~ #map, .sidebar.collapsed + #map { margin-left: 0; width: calc(100%) }

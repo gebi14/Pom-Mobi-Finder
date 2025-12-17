@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PomMobi Finder</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top-header">
+        <div class="top-header-inner">
+            <div class="title-badge"><i class="fa-solid fa-gas-pump"></i> <span class="top-title">⛽ PomMobi Finder</span></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="header">
+            <!-- sidebar title removed to avoid duplicate black title -->
+        </div>
+
+        <div class="search-section">
+            <input type="text" id="search-input" placeholder="Cari Lokasi...">
+            <button onclick="detectUserLocation()" id="btn-lokasi-user" style="margin-top:8px;width:100%;padding:8px 0;border-radius:6px;cursor:pointer;font-weight:600;">
+                <i class="fa-solid fa-location-crosshairs"></i> Deteksi Lokasi Saya
+            </button>
+            <button id="btn-route-nearest" style="margin-top:8px;width:100%;padding:8px 0;border-radius:6px;cursor:pointer;font-weight:600;">
+                <i class="fa-solid fa-route"></i> Rute ke Pom Terdekat
+            </button>
+        </div>
+
+        <div class="filter-card">
+            <h4>⛽ Jenis BBM</h4>
+            <div>
+                <select id="bbm-select" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ffd6e6">
+                    <option value="">-- Pilih jenis BBM (Semua) --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="filter-card">
+            <h4>🕛 Jam Buka</h4>
+            <div>
+                <label style="display:block;font-size:0.95em;margin-bottom:6px">Pilih jam buka (rentang):</label>
+                <div style="display:flex;gap:8px">
+                    <input type="time" id="jam-start" style="flex:1;padding:6px;border-radius:6px;border:1px solid #ffd6e6" />
+                    <input type="time" id="jam-end" style="flex:1;padding:6px;border-radius:6px;border:1px solid #ffd6e6" />
+                </div>
+                <div style="margin-top:8px;font-size:0.9em;color:#666">Atau pilih '24 Jam Non-Stop': <input type="checkbox" id="jam24" value="true" /></div>
+            </div>
+        </div>
+
+        <div class="filter-card">
+            <h4>💳 Pembayaran</h4>
+            <div>
+                <select id="payment-select" style="width:100%;padding:8px;border-radius:8px;border:1px solid #ffd6e6">
+                    <option value="">-- Pilih metode pembayaran (Semua) --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="filter-card">
+            <h4>💸 Range Harga</h4>
+            <div>
+                <label style="display:block;font-size:0.95em;margin-bottom:6px">Pilih harga maksimum (Rp):</label>
+                <input type="range" id="harga-max" class="single-range" min="0" max="15000" value="15000" style="width:100%" />
+                <div style="display:flex;justify-content:space-between;font-size:0.9em;margin-top:6px"><span>Rp 0</span><span id="harga-max-label">Rp 15.000</span></div>
+            </div>
+        </div>
+
+        <div class="filter-card">
+            <h4>🛵 Layanan Delivery</h4>
+            <div id="delivery-group">
+                <input type="checkbox" id="delivery_tersedia" value="true">
+                <label for="delivery_tersedia">Delivery Tersedia</label>
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button id="run-filter">FIND!</button>
+            <button id="reset-filter">RESET</button>
+        </div>
+    </div>
+    
+    <button id="toggle-sidebar" aria-label="Toggle sidebar" title="Tampilkan / Sembunyikan sidebar">☰</button>
+    <div id="map"></div>
+
+    <!-- Top right actions -->
+    <div class="top-actions">
+        <button id="btn-about">About</button>
+        <button id="btn-feedback">Feedback</button>
+    </div>
+
+    <!-- About modal -->
+    <div id="modal-about" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close">×</button>
+            <h3>Tentang PomMobi Finder</h3>
+            <p>PomMobi Finder adalah sebuah aplikasi WebGIS prototipe yang membantu pengguna menemukan pom bensin kecil (pom mini) di sekitar mereka. Aplikasi ini menyediakan pencarian lokasi, filter layanan (jenis BBM, jam buka, metode pembayaran, layanan delivery), dan kemampuan untuk menghitung rute tercepat menuju pom pilihan menggunakan layanan routing publik. Tujuan proyek ini adalah mempermudah akses ke informasi pom mini serta memberikan navigasi sederhana bagi pengguna.</p>
+            <h4 style="margin-top:10px">Dibuat Oleh:</h4>
+            <p>KELOMPOK D OSIG 2025</p>
+            <ul>
+                <li>MEI INDAH WIJAYANTI	21110122120018</li>
+                <li>FAZZA LAILLY FEBRIANA	21110122130048</li>
+                <li>GABRIELA N. HUTAGAOL	21110122130061</li>
+                <li>NITALIA NURALIAH	21110122120017</li>
+            </ul>
+            <small>Versi prototipe — data berasal dari database internal.</small>
+        </div>
+    </div>
+
+    <!-- Feedback modal -->
+    <div id="modal-feedback" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close">×</button>
+            <h3>Feedback</h3>
+            <p>Berikan penilaian dan masukan Anda:</p>
+            <div style="margin:8px 0">
+                <label style="font-weight:700;display:block;margin-bottom:6px">Rating:</label>
+                <div id="rating-stars" style="display:flex;gap:6px">
+                    <button class="star" data-value="1">★</button>
+                    <button class="star" data-value="2">★</button>
+                    <button class="star" data-value="3">★</button>
+                    <button class="star" data-value="4">★</button>
+                    <button class="star" data-value="5">★</button>
+                </div>
+            </div>
+            <textarea id="feedback-text" rows="5" style="width:100%;margin-top:8px;" placeholder="Tulis masukan Anda di sini..."></textarea>
+            <div style="margin-top:8px;text-align:right;"><button id="send-feedback" style="background:#1976d2;color:#fff;padding:8px 12px;border-radius:6px;border:none;">Kirim</button></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
